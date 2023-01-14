@@ -1,0 +1,19 @@
+REST: Representational State Transfer
+Protocolo HTTP
+Identificação de recursos (URI)
+Manipulação recursos (verbos HTTP)
+Representação de recursos (Media Types)
+
+------------------------------------------------------
+
+Gerar um projeto Spring do zero
+
+start.spring.io
+
+-------------------------------------------------------
+
+Ativar o auto reload no IntelliJ
+
+
+* Ctrl+Alt+s -> Build, Execution, Deployment -> Compiler -> Marcar a opção "Build project automatically"
+* Ctrl+Alt+s -> Advanced Settings -> Marcar a opção "Allow auto-make..."
