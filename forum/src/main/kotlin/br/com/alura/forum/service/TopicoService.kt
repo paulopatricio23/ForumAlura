@@ -22,11 +22,17 @@ class TopicoService(
         }.collect(Collectors.toList()) // Converter de stream para uma lista
     }
 
-    fun buscarPorId(id: Long): TopicoView {
+    fun buscarTopicoViewPorId(id: Long): TopicoView {
         val topico = topicos.stream().filter { t ->
             t.id == id //dado o topico (t), eu quero o topico que tiver o id que foi passado no parâmetro
         }.findFirst().get()
         return topicoViewMapper.map(topico)
+    }
+
+    fun buscarPorId(id: Long): Topico {
+        return topicos.stream().filter { t ->
+            t.id == id //dado o topico (t), eu quero o topico que tiver o id que foi passado no parâmetro
+        }.findFirst().get()
     }
 
     fun cadastrar(novoTopicoForm: NovoTopicoForm) {
