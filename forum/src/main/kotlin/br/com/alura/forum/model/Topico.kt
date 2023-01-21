@@ -7,8 +7,8 @@ import java.time.LocalDateTime
 data class Topico(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) // Como o próprio banco gerenciará od ids é necessário adicionar esta configuração
     var id: Long? = null,
-    val titulo: String,
-    val mensagem: String,
+    var titulo: String,
+    var mensagem: String,
     val dataCriacao: LocalDateTime = LocalDateTime.now(),
     @ManyToOne // Anotation necessária para indicar que este atributo é uma relação com outra entidade e qual tipo desta relação
     val curso: Curso,

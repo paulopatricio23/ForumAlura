@@ -4,6 +4,7 @@ import br.com.alura.forum.dto.AtualizacaoTopicoForm
 import br.com.alura.forum.dto.NovoTopicoForm
 import br.com.alura.forum.dto.TopicoView
 import br.com.alura.forum.service.TopicoService
+import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -33,6 +34,7 @@ class TopicoController (private val service: TopicoService) {
     }
 
     @PostMapping
+    @Transactional // Anotation do contexto de transação para fazer o commit apenas no final da transação
     fun cadastrar(
         @RequestBody @Valid novoTopicoForm: NovoTopicoForm,
         uriBuilder: UriComponentsBuilder //Este uri builder servia para fornecer o uri completo do recurso de acordo com o ambiente de execução
@@ -43,12 +45,14 @@ class TopicoController (private val service: TopicoService) {
     }
 
     @PutMapping
+    @Transactional // Anotation do contexto de transação para fazer o commit apenas no final da transação
     fun atualizar(@RequestBody @Valid atualizacaoTopicoForm: AtualizacaoTopicoForm): ResponseEntity<TopicoView> {
         val topicoView = service.atualizar(atualizacaoTopicoForm)
         return ResponseEntity.ok(topicoView)
     }
 
     @DeleteMapping("/{id}")
+    @Transactional // Anotation do contexto de transação para fazer o commit apenas no final da transação
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deletar(@PathVariable id: Long) {
         service.deletar(id)
