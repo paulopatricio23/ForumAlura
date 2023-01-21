@@ -23,4 +23,18 @@ class ExceptionHandler {
             path = request.servletPath
         )
     }
+
+    @ExceptionHandler(Exception::class) // Informa ao Spring que quando qualquer exception acontecer, este método será executado
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // O ResponseStatus a ser devolvido
+    fun handleServerError(
+        exception: NotFoundException,
+        request: HttpServletRequest
+    ): ErrorView {
+        return ErrorView(
+            status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            error = HttpStatus.INTERNAL_SERVER_ERROR.name,
+            message = exception.message,
+            path = request.servletPath
+        )
+    }
 }
