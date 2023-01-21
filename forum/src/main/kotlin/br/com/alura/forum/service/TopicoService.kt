@@ -3,6 +3,7 @@ package br.com.alura.forum.service
 import br.com.alura.forum.dto.AtualizacaoTopicoForm
 import br.com.alura.forum.dto.NovoTopicoForm
 import br.com.alura.forum.dto.TopicoView
+import br.com.alura.forum.exception.NotFoundException
 import br.com.alura.forum.mapper.TopicoFormMapper
 import br.com.alura.forum.mapper.TopicoViewMapper
 import br.com.alura.forum.model.Topico
@@ -14,7 +15,8 @@ import kotlin.collections.ArrayList
 class TopicoService(
     private var topicos: List<Topico> = ArrayList(),
     private val topicoViewMapper: TopicoViewMapper,
-    private val topicoFormMapper: TopicoFormMapper
+    private val topicoFormMapper: TopicoFormMapper,
+    private val notFoundMessage: String = "Topico não encontrado!"
 ) {
 
     fun listar(): List<TopicoView> {
@@ -26,14 +28,14 @@ class TopicoService(
     fun buscarTopicoViewPorId(id: Long): TopicoView {
         val topico = topicos.stream().filter { t ->
             t.id == id //dado o topico (t), eu quero o topico que tiver o id que foi passado no parâmetro
-        }.findFirst().get()
+        }.findFirst().orElseThrow{NotFoundException(notFoundMessage)}
         return topicoViewMapper.map(topico)
     }
 
     fun buscarPorId(id: Long): Topico {
         return topicos.stream().filter { t ->
             t.id == id //dado o topico (t), eu quero o topico que tiver o id que foi passado no parâmetro
-        }.findFirst().get()
+        }.findFirst().orElseThrow{NotFoundException(notFoundMessage)}
     }
 
     fun cadastrar(novoTopicoForm: NovoTopicoForm): TopicoView {
@@ -46,7 +48,7 @@ class TopicoService(
     fun atualizar(atualizacaoTopicoForm: AtualizacaoTopicoForm): TopicoView {
         val topico = topicos.stream().filter { t ->
             t.id == atualizacaoTopicoForm.id //dado o topico (t), eu quero o topico que tiver o id que foi passado no parâmetro
-        }.findFirst().get()
+        }.findFirst().orElseThrow{NotFoundException(notFoundMessage)}
         val topicoAtualizado = Topico(
             id = atualizacaoTopicoForm.id,
             titulo = atualizacaoTopicoForm.titulo,
@@ -64,7 +66,7 @@ class TopicoService(
     fun deletar(id: Long) {
         val topico = topicos.stream().filter { t ->
             t.id == id //dado o topico (t), eu quero o topico que tiver o id que foi passado no parâmetro
-        }.findFirst().get()
+        }.findFirst().orElseThrow{NotFoundException(notFoundMessage)}
         topicos = topicos.minus(topico)
     }
 }

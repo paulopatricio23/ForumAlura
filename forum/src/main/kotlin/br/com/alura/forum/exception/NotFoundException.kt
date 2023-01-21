@@ -1,4 +1,6 @@
 package br.com.alura.forum.exception
 
-class NotFoundException {
+import java.lang.RuntimeException
+
+class NotFoundException(message: String?) : RuntimeException(message) {
 }
