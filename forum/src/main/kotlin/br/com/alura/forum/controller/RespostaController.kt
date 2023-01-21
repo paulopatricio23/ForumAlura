@@ -1,16 +1,15 @@
 package br.com.alura.forum.controller
 
+import br.com.alura.forum.dto.AtualizacaoRespostaForm
 import br.com.alura.forum.dto.NovaRespostaForm
 import br.com.alura.forum.dto.RespostaView
 import br.com.alura.forum.model.Resposta
 import br.com.alura.forum.service.RespostaService
 import jakarta.validation.Valid
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.util.UriComponentsBuilder
 
 @RestController
 @RequestMapping("/respostas")
@@ -27,7 +26,23 @@ class RespostaController(private val service: RespostaService) {
     }
 
     @PostMapping()
-    fun cadastrar(@RequestBody @Valid novaRespostaForm: NovaRespostaForm) {
-        service.cadastrar(novaRespostaForm)
+    fun cadastrar(
+        @RequestBody @Valid novaRespostaForm: NovaRespostaForm,
+        uriBuilder: UriComponentsBuilder //Este uri builder servia para fornecer o uri completo do recurso de acordo com o ambiente de execução
+    ): ResponseEntity<RespostaView> {
+        val respostaView = service.cadastrar(novaRespostaForm)
+        val uri = uriBuilder.path("/respostas/${respostaView.id}").build().toUri() //É uma boa prática retornar um uri para acessar este recurso criado e o próprio recurso
+        return ResponseEntity.created(uri).body(respostaView)
+    }
+
+    @PutMapping()
+    fun atualizar(@RequestBody @Valid atualizacaoRespostaForm: AtualizacaoRespostaForm) {
+        val respostaView = service.atualizar(atualizacaoRespostaForm)
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deletar(id: Long) {
+        service.deletar(id)
     }
 }

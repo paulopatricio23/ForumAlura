@@ -1,5 +1,6 @@
 package br.com.alura.forum.service
 
+import br.com.alura.forum.dto.AtualizacaoRespostaForm
 import br.com.alura.forum.dto.NovaRespostaForm
 import br.com.alura.forum.dto.RespostaView
 import br.com.alura.forum.mapper.RespostaFormMapper
@@ -34,10 +35,34 @@ class RespostaService(
         }.findFirst().get()
     }
 
-    fun cadastrar(novaRespostaForm: NovaRespostaForm) {
+    fun cadastrar(novaRespostaForm: NovaRespostaForm): RespostaView {
         var resposta = respostaFormMapper.map(novaRespostaForm)
         resposta.id = respostas.size.toLong() + 1
         respostas = respostas.plus(resposta)
+        return respostaViewMapper.map(resposta)
+    }
+
+    fun atualizar(atualizacaoRespostaForm: AtualizacaoRespostaForm): RespostaView {
+        val resposta = respostas.stream().filter {
+            r -> r.id == atualizacaoRespostaForm.id
+        }.findFirst().get()
+        val respostaAtualizada = Resposta(
+            id = resposta.id,
+            mensagem = atualizacaoRespostaForm.mensagem,
+            solucao = atualizacaoRespostaForm.solucao,
+            dataCriacao = resposta.dataCriacao,
+            autor = resposta.autor,
+            topico = resposta.topico
+        )
+        respostas.minus(resposta).plus(respostaAtualizada)
+        return respostaViewMapper.map(respostaAtualizada)
+    }
+
+    fun deletar(id: Long) {
+        val resposta = respostas.stream().filter {
+                r -> r.id == id
+        }.findFirst().get()
+        respostas.minus(resposta)
     }
 
 
