@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -30,7 +31,8 @@ class TopicoController (private val service: TopicoService) {
     @GetMapping //Quando chegar uma requisição get cai neste método
     fun listar(
         @RequestParam(required = false) nomeCurso: String?,
-        @PageableDefault(size = 5) paginacao: Pageable // É possível adicionar a paginação como RequestParam, basta adicionar na chamada 'size=X&page=Y'. Também é possível adicionar o PageableDefault, onde é possível alterar os padrões do Page
+        @PageableDefault(size = 5, sort = ["dataCriacao"], direction = Sort.Direction.DESC) paginacao: Pageable // É possível adicionar a paginação como RequestParam, basta adicionar na chamada 'size=X&page=Y'. Também é possível adicionar o PageableDefault, onde é possível alterar os padrões do Page
+                                                        // Para ordenar o resultado, na chamada do endpoint pode ser chamado da seguinte forma: 'sort=id,desc&sort=titulo'
     ): Page<TopicoView> { // Ao trocar para page o retorno vai com mais informações, como offset e quantidade de topicos por página
         return service.listar(nomeCurso, paginacao)
     }
