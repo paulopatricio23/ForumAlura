@@ -6,6 +6,9 @@ import br.com.alura.forum.dto.TopicoView
 import br.com.alura.forum.service.TopicoService
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -25,8 +28,11 @@ import org.springframework.web.util.UriComponentsBuilder
 class TopicoController (private val service: TopicoService) {
 
     @GetMapping //Quando chegar uma requisição get cai neste método
-    fun listar(@RequestParam(required = false) nomeCurso: String?): List<TopicoView> {
-        return service.listar(nomeCurso)
+    fun listar(
+        @RequestParam(required = false) nomeCurso: String?,
+        @PageableDefault(size = 5) paginacao: Pageable // É possível adicionar a paginação como RequestParam, basta adicionar na chamada 'size=X&page=Y'. Também é possível adicionar o PageableDefault, onde é possível alterar os padrões do Page
+    ): Page<TopicoView> { // Ao trocar para page o retorno vai com mais informações, como offset e quantidade de topicos por página
+        return service.listar(nomeCurso, paginacao)
     }
 
     @GetMapping("/{id}")
