@@ -6,6 +6,7 @@ import br.com.alura.forum.dto.TopicoView
 import br.com.alura.forum.service.TopicoService
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
+import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -46,6 +47,7 @@ class TopicoController (private val service: TopicoService) {
 
     @PostMapping
     @Transactional // Anotation do contexto de transação para fazer o commit apenas no final da transação
+    @CacheEvict(value = ["topicos"], allEntries = true) // Anotação para limpar o cache. O parametro value é um array de quais caches devem ser limpados e allEntries, indica se é para limpar todos os registros ou apenas o que está sendo manipulado
     fun cadastrar(
         @RequestBody @Valid novoTopicoForm: NovoTopicoForm,
         uriBuilder: UriComponentsBuilder //Este uri builder servia para fornecer o uri completo do recurso de acordo com o ambiente de execução
@@ -57,6 +59,7 @@ class TopicoController (private val service: TopicoService) {
 
     @PutMapping
     @Transactional // Anotation do contexto de transação para fazer o commit apenas no final da transação
+    @CacheEvict(value = ["topicos"], allEntries = true) // Anotação para limpar o cache. O parametro value é um array de quais caches devem ser limpados e allEntries, indica se é para limpar todos os registros ou apenas o que está sendo manipulado
     fun atualizar(@RequestBody @Valid atualizacaoTopicoForm: AtualizacaoTopicoForm): ResponseEntity<TopicoView> {
         val topicoView = service.atualizar(atualizacaoTopicoForm)
         return ResponseEntity.ok(topicoView)
@@ -64,6 +67,7 @@ class TopicoController (private val service: TopicoService) {
 
     @DeleteMapping("/{id}")
     @Transactional // Anotation do contexto de transação para fazer o commit apenas no final da transação
+    @CacheEvict(value = ["topicos"], allEntries = true) // Anotação para limpar o cache. O parametro value é um array de quais caches devem ser limpados e allEntries, indica se é para limpar todos os registros ou apenas o que está sendo manipulado
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deletar(@PathVariable id: Long) {
         service.deletar(id)

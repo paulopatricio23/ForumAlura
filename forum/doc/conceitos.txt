@@ -33,3 +33,5 @@ CACHE
 
 O cache deve ser colocado em situações onde as informações a serem consultadas raramente mudam no banco.
 Caso seja utilizado em situações que mudam frequentemente, teria que ficar anulando o cache e isso poderia prejudicar a performance
+
+No ambiente de desenvolvimente, apenas o stater-cache é suficiente. Porém em Produção, seria importante utilizar mais outra ferramente para armazenar o cache, tal qual como Redis.
