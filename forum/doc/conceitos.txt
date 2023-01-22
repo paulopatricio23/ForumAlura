@@ -35,3 +35,10 @@ O cache deve ser colocado em situações onde as informações a serem consultad
 Caso seja utilizado em situações que mudam frequentemente, teria que ficar anulando o cache e isso poderia prejudicar a performance
 
 No ambiente de desenvolvimente, apenas o stater-cache é suficiente. Porém em Produção, seria importante utilizar mais outra ferramente para armazenar o cache, tal qual como Redis.
+
+---------------------------------------------------------
+
+BANCO H2
+
+É possível habilitar o console gráfico do banco em memória H2. Basta adicionar 'h2.console.enable=true'
+Para acessá-lo, basta abrir o navegador e digitar: http://localhost:8080/console-h2 e utlizar as credenciais de acesso setadas no properties
