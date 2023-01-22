@@ -79,4 +79,9 @@ class TopicoController (private val service: TopicoService) {
         return service.relatorio()
     }
 
+    @GetMapping("/nao-respondidos")
+    fun topicosNaoRespondidos(): List<TopicoView> {
+        return service.buscarTopicosNaoRespondidos()
+    }
+
 }

@@ -17,4 +17,7 @@ interface TopicoRepository: JpaRepository<Topico, Long> { // Herda a classe JpaR
     @Query("SELECT new br.com.alura.forum.dto.TopicoPorCategoriaDTO(curso.categoria, count(t)) FROM Topico t JOIN t.curso curso GROUP BY curso.categoria") // Passando um SQL personalizado para consulta no banco
     // Neste caso foi utilizado um JPQL, mas também pode-se utilizar o parametro 'native = true' para evitar transformar uma consulta pré-existente em JPQL e utilizá-la sem alterá-la
     fun relatorio(): List<TopicoPorCategoriaDTO>
+
+    @Query("select t from Topico t where t.respostas is empty")
+    fun topicosNaoRespondidos(): List<Topico>
 }

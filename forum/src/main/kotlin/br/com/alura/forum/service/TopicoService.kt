@@ -64,6 +64,7 @@ class TopicoService(
         val topico = repository.findById(atualizacaoTopicoForm.id).orElseThrow{NotFoundException(notFoundMessage)}
         topico.titulo = atualizacaoTopicoForm.titulo
         topico.mensagem = atualizacaoTopicoForm.mensagem
+        repository.save(topico)
         return topicoViewMapper.map(topico)
     }
 
@@ -73,5 +74,11 @@ class TopicoService(
 
     fun relatorio(): List<TopicoPorCategoriaDTO> {
         return repository.relatorio()
+    }
+
+    fun buscarTopicosNaoRespondidos(): List<TopicoView> {
+        return repository.topicosNaoRespondidos().map {
+            t -> topicoViewMapper.map(t)
+        }
     }
 }
