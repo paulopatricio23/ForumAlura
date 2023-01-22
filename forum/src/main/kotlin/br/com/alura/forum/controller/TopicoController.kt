@@ -6,6 +6,7 @@ import br.com.alura.forum.dto.TopicoView
 import br.com.alura.forum.service.TopicoService
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
@@ -29,6 +30,7 @@ import org.springframework.web.util.UriComponentsBuilder
 class TopicoController (private val service: TopicoService) {
 
     @GetMapping //Quando chegar uma requisição get cai neste método
+    @Cacheable("topicos") // Anotação do cache, a partir da segunda consulta, não consulta mais no banco e traz a informação salva no cache. O parametro "topicos" representa a lista salva no cache
     fun listar(
         @RequestParam(required = false) nomeCurso: String?,
         @PageableDefault(size = 5, sort = ["dataCriacao"], direction = Sort.Direction.DESC) paginacao: Pageable // É possível adicionar a paginação como RequestParam, basta adicionar na chamada 'size=X&page=Y'. Também é possível adicionar o PageableDefault, onde é possível alterar os padrões do Page

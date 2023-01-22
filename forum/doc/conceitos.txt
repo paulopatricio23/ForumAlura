@@ -26,3 +26,10 @@ HTTP STATUS CODES
 3xx - indica ao cliente uma ação a ser tomada para que a requisição possa ser concluída
 4xx - indica erros na requisição causados pelo cliente
 5xx - indica que a requisição não foi concluída devido a erros ocorridos no servidor
+
+--------------------------------------------------------
+
+CACHE
+
+O cache deve ser colocado em situações onde as informações a serem consultadas raramente mudam no banco.
+Caso seja utilizado em situações que mudam frequentemente, teria que ficar anulando o cache e isso poderia prejudicar a performance
