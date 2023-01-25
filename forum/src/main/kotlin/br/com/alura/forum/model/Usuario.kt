@@ -10,5 +10,6 @@ data class Usuario(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) // Como o próprio banco gerenciará od ids é necessário adicionar esta configuração
     val id: Long? = null,
     val nome: String,
-    val email: String
+    val email: String,
+    val password: String
 )
