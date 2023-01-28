@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails
 class UserDetail(
 private val usuario: Usuario
 ) : UserDetails { //Classe utilizada para comparar as credenciais que o usuário está fornecendo com as credencias no banco
-    override fun getAuthorities() = null
+    override fun getAuthorities() = usuario.role
 
     override fun getPassword() = usuario.password
 

@@ -1,5 +1,6 @@
 package br.com.alura.forum.config
 
+import br.com.alura.forum.security.JWTLoginFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -8,10 +9,13 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfiguration() {
+class SecurityConfiguration(
+    private val jwtUtil: JWTUtil
+) {
 
     /*
     * Resposta do Fórum da Alura:
@@ -23,8 +27,12 @@ class SecurityConfiguration() {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http?.
-            authorizeHttpRequests()?.anyRequest()?.authenticated()?. // Todas as requests precisam estar autenticadas
-            and()?.sessionManagement()?.sessionCreationPolicy(SessionCreationPolicy.STATELESS)?. // Não guardar status da autenticação
+            authorizeHttpRequests()?.
+            requestMatchers("/login")?.permitAll()?. // Permitir todos os usuários
+            anyRequest()?.authenticated()?. // Todas as requests precisam estar autenticadas
+            and()
+        http?.addFilterBefore(JWTLoginFilter(jwtUtil = jwtUtil), UsernamePasswordAuthenticationFilter().javaClass) // Filtro para interceptar as credenciais, autenticar e criar o token
+        http.sessionManagement()?.sessionCreationPolicy(SessionCreationPolicy.STATELESS)?. // Não guardar status da autenticação
             and()?.formLogin()?.disable()?.httpBasic() // Desativar a tela de login do próprio Spring ao acessar a aplicação
             return http.build()
     }
