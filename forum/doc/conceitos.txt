@@ -42,3 +42,23 @@ BANCO H2
 
 É possível habilitar o console gráfico do banco em memória H2. Basta adicionar 'h2.console.enable=true'
 Para acessá-lo, basta abrir o navegador e digitar: http://localhost:8080/console-h2 e utlizar as credenciais de acesso setadas no properties
+
+---------------------------------------------------------
+
+JWT
+
+Json Web Token.
+
+É uma String separada em 3 por pontos ".":
+
+- A primeira parte representa o cabeçalho que é composto pelas seguintes informações:
+    -  O algoritmo de criptografia.
+    - O tipo do token.
+
+- A segunda parte representa o payload, onde estão as informações do usuário e é composto pelas seguintes informações:
+    - sub: geralmente o id do usuário.
+    - name: nome do usuário
+    - iat (issued at): timestamp de quando o token foi criado
+
+- A terceira parte é a "verify signature" que nada mais é que a assinatura do token que consiste em:
+    - Uma string baseada no Header, no payload e na secret gerada durante a criação do token.
