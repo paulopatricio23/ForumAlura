@@ -1,5 +1,6 @@
 package br.com.alura.forum.config
 
+import br.com.alura.forum.security.JWTAuthenticationFilter
 import br.com.alura.forum.security.JWTLoginFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.web.filter.OncePerRequestFilter
 
 @Configuration
 @EnableWebSecurity
@@ -33,6 +35,7 @@ class SecurityConfiguration(
             anyRequest()?.authenticated()?. // Todas as requests precisam estar autenticadas
             and()
         http?.addFilterBefore(JWTLoginFilter(jwtUtil = jwtUtil), UsernamePasswordAuthenticationFilter().javaClass) // Filtro para interceptar as credenciais, autenticar e criar o token
+        http?.addFilterBefore(JWTAuthenticationFilter(jwtUtil = jwtUtil), OncePerRequestFilter::class.java) // Filtro para validar o token por requisição
         http?.sessionManagement()?.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Não guardar status da autenticação
         return http.build()
     }
