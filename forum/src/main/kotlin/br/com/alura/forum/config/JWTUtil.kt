@@ -20,21 +20,21 @@ class JWTUtil {
         return Jwts.builder() // Builder do token
             .setSubject(username) // Como precisamos passar as informações do usuário, aqui passamos o nome
             .setExpiration(Date(System.currentTimeMillis() + expiration))
-            .signWith(SignatureAlgorithm.ES512, secret.toByteArray())
+            .signWith(SignatureAlgorithm.HS512, secret.toByteArray())
             .compact()
     }
 
     fun isValid(jwt: String?): Boolean {
         return try {
-            Jwts.parser().setSigningKey(secret.toByteArray()).parseClaimsJwt(jwt)
+            Jwts.parser().setSigningKey(secret.toByteArray()).parseClaimsJws(jwt)
             return true
         } catch (e: java.lang.IllegalArgumentException) {
-            return false
+            return true
         }
     }
 
     fun getAuthentication(jwt: String?): Authentication {
-        val username = Jwts.parser().setSigningKey(secret.toByteArray()).parseClaimsJwt(jwt).body.subject // Para ler o username no JWT
+        val username = Jwts.parser().setSigningKey(secret.toByteArray()).parseClaimsJws(jwt).body.subject // Para ler o username no JWT
         return UsernamePasswordAuthenticationToken(username, null, null) // Não é necessário passar as credentials pois já sabemos que está logado, nem as autorities pois ainda não estamos trabalhando com elas
     }
 }
