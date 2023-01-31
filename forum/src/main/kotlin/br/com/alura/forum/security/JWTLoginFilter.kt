@@ -30,8 +30,9 @@ class JWTLoginFilter(
         chain: FilterChain?,
         authResult: Authentication?
     ) { // Método que servirá de resposta para uma autenticação bem sucedida
-        val username = (authResult?.principal as UserDetails).username // Busca o nome do usuário através do UserDetails
-        val token = jwtUtil.generateToken(username) // Gera um token JWT
+//        val username = (authResult?.principal as UserDetails).username // Busca o nome do usuário através do UserDetails
+        val user = (authResult?.principal as UserDetails) // Para buscar as roles, em vez de buscar apenas o suername, deve buscar o usuario todo
+        val token = jwtUtil.generateToken(user.username, user.authorities) // Gera um token JWT
         response?.addHeader("Authorization", "Bearer $token") // Adiciona o token no Header da Response
     }
 }

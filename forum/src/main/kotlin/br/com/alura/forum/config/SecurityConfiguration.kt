@@ -34,6 +34,7 @@ class SecurityConfiguration(
         http?.
             csrf()?.disable()?. // Desabilitando o CSRF (Cross-Site Request Forgery) que consiste em requisições se passando por um usuário legítimo. É importante mantê-lo habilitado em ambiente de produção para evitar estes ataques. Aqui estamos desabilitando para fazer menos configurações que não são o alvo da aula
             authorizeHttpRequests()?.
+            requestMatchers(HttpMethod.POST,"/topicos")?.hasAnyAuthority("LEITURA_ESCRITA")?.
             requestMatchers(HttpMethod.POST,"/login")?.permitAll()?. // Permitir todos os usuários
             anyRequest()?.authenticated()?. // Todas as requests precisam estar autenticadas
             and()
