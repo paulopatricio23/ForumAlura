@@ -70,4 +70,4 @@ DOCKERFILE
 FROM adoptopenjdk/openjdk11 -- A imagem do container normalmente encontrada no site: docker hub
 EXPOSE 8080 -- A porta em que a aplicação será exposta para fora do container
 ADD /target/forum-0.0.1-SNAPSHOT.jar forum.jar -- Adiciona o caminho do jar da aplicação
-ENTRYPOINT ["java", "jar", "forum.jar"] -- comando para iniciar a aplicação
+ENTRYPOINT ["java", "-jar", "forum.jar"] -- comando para iniciar a aplicação
