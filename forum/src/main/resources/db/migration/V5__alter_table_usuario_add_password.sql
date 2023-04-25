@@ -1,1 +1,1 @@
-alter table usuario add column password varchar(50);
+alter table usuario add column password varchar(5000);

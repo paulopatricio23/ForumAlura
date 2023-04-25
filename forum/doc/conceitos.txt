@@ -166,5 +166,46 @@ heroku container:push web
 
 COMANDO PARA USAR MYSQL NO DOCKER
 
+***************************************
+
+Fazendo o download do container Docker
+
 docker pull mysql:8.0.33
 
+***************************************
+
+Executando o container
+
+docker run -d -p 3306:3306 --name mysql-container -e MYSQL_ROOT_PASSWORD=root -e MYSQL_PASSWORD=root mysql:8.0.33
+
+A primeira porta é do container e a segunda é a do banco de dados definida no Dockerfile
+
+-e: variável de ambiente
+
+Caso apresente o erro abaixo, basta parar a execação do MySQL instalado localmente.
+
+Error response from daemon: Ports are not available: exposing port TCP 0.0.0.0:3306 -> 0.0.0.0:0: listen tcp 0.0.0.0:3306: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted
+
+***************************************
+
+Acessando o container
+
+docker exec -it mysql-container bash
+
+***************************************
+
+Acessando o banco de dados
+
+mysql -u root -p
+
+***************************************
+
+Criar database forum
+
+create database forum;
+
+-------------------------------------------------------------------
+
+Correção erro do flyway
+
+Adicionar a dependência flyway-mysql
