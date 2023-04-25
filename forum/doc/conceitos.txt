@@ -144,3 +144,20 @@ heroku container:release web
 LOGS NO HEROKU
 
 https://dashboard.heroku.com/apps/pure-caverns-56100/logs
+
+-------------------------------------------------------------------
+
+ADICIONANDO FLAGS DA JVM NO ENTRYPOINT DO DOCKERFILE
+
+Para a aplicação executar corretamente em prod algumas flags deverão ser adicionadas:
+
+XX:+UseContainerSupport: avisar à JVM que a aplicação está rodando em um container, melhorando a performance
+Xmx Xss: máximo e mínimo de memória que a aplicação vai utilizar
+CICompilerCount: define a quantidade de compiladores para performance da aplicação
+-Dserver.port: indicar a porta através de uma variável de ambiente, pois a porta nem sempre será a mesma em ambiente de prod
+-Dspring.profile.active: define o ambiente de execução
+
+após estas alterações executar:
+
+mvn clean package
+heroku container:push web
