@@ -91,3 +91,56 @@ docker run -p 3080:8080 forum
     8080 -> porta de exposição da aplicação
 
 Então, a partir de agora os endpoints deverão ser chamados pela porta 3080
+
+-------------------------------------------------------------------
+
+HEROKU
+
+Plataforma de cloud para deploy de aplicação
+
+-------------------------------------------------------------------
+
+COMANDO PARA CONECTAR O HEROKU AO TERMINAL
+
+heroku login
+
+-------------------------------------------------------------------
+
+COMANDO PARA CRIAR UM PROJETO NO HEROKU
+
+heroku create
+
+-------------------------------------------------------------------
+
+COMANDO PARA CONECTAR O PROJETO AO HEROKU
+
+Executar no diretório raíz do projeto:
+heroku git:remote -a pure-caverns-56100
+
+-a: nome do projeto criado no comando heroku create
+
+-------------------------------------------------------------------
+
+COMANDO PARA CONECTAR AO REGISTRY DO HEROKU
+
+heroku container:login
+
+-------------------------------------------------------------------
+
+COMANDO PARA CRIAR A IMAGEM NO REGISTRY DO HEROKU
+
+heroku container:push web
+
+web: stack default do heroku
+
+-------------------------------------------------------------------
+
+COMANDO PARA CRIAR UMA RELEASE NO HEROKU
+
+heroku container:release web
+
+-------------------------------------------------------------------
+
+LOGS NO HEROKU
+
+https://dashboard.heroku.com/apps/pure-caverns-56100/logs
