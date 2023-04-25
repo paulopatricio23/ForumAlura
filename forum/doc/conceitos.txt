@@ -161,3 +161,10 @@ após estas alterações executar:
 
 mvn clean package
 heroku container:push web
+
+-------------------------------------------------------------------
+
+COMANDO PARA USAR MYSQL NO DOCKER
+
+docker pull mysql:8.0.33
+
