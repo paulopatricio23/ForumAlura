@@ -13,8 +13,7 @@ import jakarta.persistence.EntityManager
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import java.util.stream.Collectors
-import kotlin.collections.ArrayList
+import java.time.LocalDate
 
 @Service //Com esta anotação é possível injetar esta classe em qualquer outra classe gerenciada pelo Spring
 class TopicoService(
@@ -64,6 +63,7 @@ class TopicoService(
         val topico = repository.findById(atualizacaoTopicoForm.id).orElseThrow{NotFoundException(notFoundMessage)}
         topico.titulo = atualizacaoTopicoForm.titulo
         topico.mensagem = atualizacaoTopicoForm.mensagem
+        topico.dataAlteracao = LocalDate.now()
         repository.save(topico)
         return topicoViewMapper.map(topico)
     }
