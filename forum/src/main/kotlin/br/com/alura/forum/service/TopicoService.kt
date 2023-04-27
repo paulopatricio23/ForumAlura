@@ -20,8 +20,8 @@ class TopicoService(
     private var repository: TopicoRepository,
     private val topicoViewMapper: TopicoViewMapper,
     private val topicoFormMapper: TopicoFormMapper,
-    private val notFoundMessage: String = "Topico não encontrado!",
-    private val em: EntityManager
+    private val em: EntityManager,
+    private val notFoundMessage: String = "Topico não encontrado!"
 ) {
 
     fun listar(
